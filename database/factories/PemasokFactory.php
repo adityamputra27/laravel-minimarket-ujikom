@@ -22,7 +22,7 @@ class PemasokFactory extends Factory
     public function definition()
     {
         return [
-            'kode_pemasok' => $this->faker->numberBetWeen(1000, 100000),
+            'kode_pemasok' => $this->faker->unique()->numberBetWeen(1000, 100000),
             'nama_pemasok' => $this->faker->company,
             'alamat' => $this->faker->address,
             'kota' => $this->faker->city,

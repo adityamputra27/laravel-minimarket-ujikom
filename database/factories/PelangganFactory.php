@@ -22,7 +22,7 @@ class PelangganFactory extends Factory
     public function definition()
     {
         return [
-            'kode_pelanggan' => $this->faker->numberBetween(1000, 100000),
+            'kode_pelanggan' => $this->faker->unique()->numberBetween(1000, 100000),
             'nama' => $this->faker->name,
             'alamat' => $this->faker->address,
             'email' => $this->faker->unique()->safeEmail

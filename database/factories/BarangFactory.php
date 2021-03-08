@@ -30,7 +30,7 @@ class BarangFactory extends Factory
         $huruf = 'BRG-';
         $kodeBarang = $huruf.sprintf("%04s", $urutan);
         return [
-            'kode_barang' => 'BRG-'.$this->faker->numberBetween(1000, 9999),
+            'kode_barang' => 'BRG-'.sprintf('%08d', $this->faker->unique()->numberBetWeen(1, 99999999)),
             'produks_id' => $this->faker->randomElement(Produk::select('id')->get()),
             'nama_barang' => $this->faker->randomElement(['MIE INDOMIE', 'SUSU FRISIAN FLAG', 'RINSO', 'KOPI GOOD DAY', 'CHIKI TARO']),
             'satuan' => $this->faker->randomElement(['pcs', 'item', 'kardus']),
