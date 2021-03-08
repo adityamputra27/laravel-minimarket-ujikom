@@ -15,7 +15,7 @@ class CreatePenjualansTable extends Migration
     {
         Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
-            $table->string('no_faktur', 50);
+            $table->string('no_faktur', 255);
             $table->date('tgl_faktur');
             $table->double('total_bayar', 100, 0);
             $table->bigInteger('pelanggans_id')->unsigned()->index();

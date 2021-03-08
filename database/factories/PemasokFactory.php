@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Pemasok;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
 
 class PemasokFactory extends Factory
 {
@@ -21,12 +22,13 @@ class PemasokFactory extends Factory
      */
     public function definition()
     {
+        $faker = Faker::create('id_ID');
         return [
-            'kode_pemasok' => $this->faker->unique()->numberBetWeen(1000, 100000),
-            'nama_pemasok' => $this->faker->company,
-            'alamat' => $this->faker->address,
-            'kota' => $this->faker->city,
-            'no_telp' => $this->faker->phoneNumber
+            'kode_pemasok' => $faker->unique()->numberBetWeen(1000, 100000),
+            'nama_pemasok' => $faker->company,
+            'alamat' => $faker->address,
+            'kota' => $faker->city,
+            'no_telp' => $faker->phoneNumber
         ];
     }
 }

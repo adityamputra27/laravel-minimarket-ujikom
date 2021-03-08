@@ -18,9 +18,9 @@ class CreateBarangsTable extends Migration
             $table->string('kode_barang');
             $table->bigInteger('produks_id')->unsigned()->index();
             $table->text('nama_barang');
-            $table->string('satuan', 10);
+            $table->string('satuan', 255);
             $table->double('harga_jual', 100, 2);
-            $table->string('stok', 5);
+            $table->string('stok', 255);
             $table->timestamps();
 
             $table->foreign('produks_id')->references('id')->on('produks')->onDelete('cascade');

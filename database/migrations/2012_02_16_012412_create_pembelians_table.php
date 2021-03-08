@@ -15,7 +15,7 @@ class CreatePembeliansTable extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_masuk', 50);
+            $table->string('kode_masuk', 255);
             $table->date('tanggal_masuk');
             $table->double('total', 100, 2);
             $table->bigInteger('pemasoks_id')->unsigned()->index();

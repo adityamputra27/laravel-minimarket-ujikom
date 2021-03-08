@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Pelanggan;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
 
 class PelangganFactory extends Factory
 {
@@ -21,11 +22,13 @@ class PelangganFactory extends Factory
      */
     public function definition()
     {
+        $faker = Faker::create('id_ID');
         return [
-            'kode_pelanggan' => $this->faker->unique()->numberBetween(1000, 100000),
-            'nama' => $this->faker->name,
-            'alamat' => $this->faker->address,
-            'email' => $this->faker->unique()->safeEmail
+            'kode_pelanggan' => $faker->unique()->numberBetween(1000, 100000),
+            'nama' => $faker->name,
+            'alamat' => $faker->address,
+            'email' => $faker->unique()->safeEmail,
+            'no_telp' => $faker->unique()->phoneNumber
         ];
     }
 }
