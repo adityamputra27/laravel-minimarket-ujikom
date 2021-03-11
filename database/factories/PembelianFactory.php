@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Pembelian;
-use App\Models\Pemasoks;
+use App\Models\Pemasok;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PembelianFactory extends Factory
@@ -22,7 +22,7 @@ class PembelianFactory extends Factory
      */
     public function definition()
     {
-        $id = Pemasoks::select('id')->get();
+        $id = Pemasok::select('id')->get();
         return [
             'kode_masuk' => $this->faker->unique()->numberBetWeen(1000, 100000),
             'tanggal_masuk' => $this->faker->date,

@@ -27,7 +27,7 @@ class PelangganFactory extends Factory
             'kode_pelanggan' => $faker->unique()->numberBetween(1000, 100000),
             'nama' => $faker->name,
             'alamat' => $faker->address,
-            'email' => $faker->unique()->safeEmail,
+            'email' => $faker->unique()->email,
             'no_telp' => $faker->unique()->phoneNumber
         ];
     }

@@ -17,7 +17,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <table id="datatable" class="data-produk table table-striped table-bordered">
+                    <table id="produksTable" class="data-produk table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($produk as $key => $value)
+                            {{-- @foreach($produk as $key => $value)
                             <tr id="row_{{ $value->id }}">
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $value->nama_produk }}</td>
@@ -37,7 +37,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -50,6 +50,17 @@
 @push('script')
     <script>
         $(function() {
+
+            const produksTable = $('produksTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('getAllProduks') }}",
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_Row_Index'},
+                    
+                ]
+            });
+
             $('body').on('click', '#formStore', function(event) {
                 event.preventDefault();
                 let nama_produk = $('#nama_produk').val();
@@ -80,6 +91,7 @@
                             // }
                             $("#nama_produk").val('');
                             $("#modalForm").modal('hide');
+                            location.reload();
                         }
                     },
                     error:function(response) {

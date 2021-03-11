@@ -26,7 +26,7 @@ class DetailPembelianFactory extends Factory
         $id = Pembelian::select('id')->get();
         return [
             'pembelians_id' => $this->faker->randomElement($id),
-            'barangs_id' => $this->faker->randomElemnt(Barang::select('id')->get()),
+            'barangs_id' => $this->faker->randomElement(Barang::select('id')->get()),
             'harga_beli' => $this->faker->numberBetWeen(1000, 9999999),
             'jumlah' => $this->faker->numberBetWeen(1, 1000),
             'sub_total' => $this->faker->numberBetWeen(1000, 9999999)

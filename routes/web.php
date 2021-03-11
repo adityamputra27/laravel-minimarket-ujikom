@@ -23,3 +23,4 @@ use App\Http\Controllers\ProdukController;
 Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::resource('barangs', BarangController::class);
 Route::resource('produks', ProdukController::class);
+Route::get('produks/getAllProduks', [ProdukController::class, 'getAllProduks'])->name('getAllProduks');

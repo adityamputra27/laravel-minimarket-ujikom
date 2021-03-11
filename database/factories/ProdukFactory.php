@@ -23,7 +23,7 @@ class ProdukFactory extends Factory
     {
         $namaProduk = ['SUSU', 'MIE', '	ES KRIM', 'KERIPIK', 'KOPI', 'PAMPERS', 'ROKOK', 'CHIKI', 'DETERJEN', 'SHAMPOO', 'ROTI'];
         return [
-            'nama_produk' => $this->faker->randomElement($namaProduk)
+            'nama_produk' => $this->faker->unique()->randomElement($namaProduk)
         ];
     }
 }

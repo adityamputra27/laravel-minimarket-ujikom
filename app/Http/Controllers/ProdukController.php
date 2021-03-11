@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use Validator;
+use Datatables;
 
 class ProdukController extends Controller
 {
@@ -15,10 +16,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = Produk::orderBy('nama_produk', 'ASC')->get();
-        return view('pages.produks.index', [
-            'produk' => $produk
-        ]);
+        return view('pages.produks.index');
     }
 
     /**
@@ -26,6 +24,27 @@ class ProdukController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getAllProduks(Request $request) 
+    {
+        if ($request->ajax()) {
+            $data = Produk::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row) {
+                    $actionButton = '
+                        <div class="btn-group">
+                            <a href="javascrip:void(0)" data-id="'.$data['id'].'" class="btn btn-success"><i class="fa fa-edit"></i></a>
+                            <a href="javascrip:void(0)" data-id="'.$data['id'].'" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                        </div>
+                    ';
+                    return $actionButton;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+
     public function create()
     {
 

@@ -24,7 +24,7 @@
               <div class="menu_section">
                 <h3>MENU</h3>
                 <ul class="nav side-menu">
-                  <li><a href="#"><i class="fa fa-dashboard"></i> DASHBOARD</a></li>
+                  <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> DASHBOARD</a></li>
                   <li><a><i class="fa fa-database"></i> MASTER DATA <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('produks.index') }}">DATA PRODUK </a></li>
