@@ -67,8 +67,22 @@
 <script src="{{ asset('assets') }}/vendors/pdfmake/build/vfs_fonts.js"></script>
 <!-- Custom Theme Scripts -->
 <script src="{{asset('assets')}}/build/js/custom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(function () {
+        setTimeout(function() {
+            $('#flash-message').fadeTo(300, 0).slideUp(300, function () {
+                $(this).remove();
+            });
+        }, 3000);
 
-@stack('script')
+    });
+    $(function() {
+        $(".select2").select2();
+    });
+</script>
+
+@stack('scripts')
 
 </body>
 </html>

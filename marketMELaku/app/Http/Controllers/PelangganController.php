@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Produk;
-use Validator;
-use Datatables;
-use Session;
+use App\Models\Pelanggan;
 
-class ProdukController extends Controller
+class PelangganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +14,9 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = Produk::orderBy('nama_produk', 'ASC')->get();
-        return view('pages.produks.index', [
-            'produk' => $produk
+        $pelanggan = Pelanggan::orderBy('nama', 'ASC')->get();
+        return view('pages.pelanggans.index', [
+            'pelanggan' => $pelanggan
         ]);
     }
 
@@ -29,10 +25,9 @@ class ProdukController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
-
+        //
     }
 
     /**
@@ -43,11 +38,7 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Produk;
-        $data->nama_produk = Str::upper($request->nama_produk);
-        $data->save();
-        Session::flash('success', 'Data Berhasil Ditambahkan!');
-        return redirect()->route('produks.index');
+        //
     }
 
     /**
@@ -81,13 +72,7 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Produk::where('id', $request->id)->first();
-        $arr = [
-            'nama_produk' => $request->nama_produk
-        ];
-        $data->update($arr);
-        Session::flash('success', 'Data Berhasil Diupdate!');
-        return redirect()->route('produks.index');
+        //
     }
 
     /**
@@ -96,15 +81,8 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $data = Produk::where('id', $request->id);
-        if ($data->delete()) {
-            Session::flash('success', 'Data Berhasil Dihapus!');
-            return redirect()->route('produks.index');
-        } else {
-            Session::flash('error', 'Data Gagal Dihapus!');
-            return redirect()->route('produks.index');
-        }
+        //
     }
 }

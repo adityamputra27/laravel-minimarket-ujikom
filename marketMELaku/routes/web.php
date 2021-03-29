@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController;
-use App\Http\Controllers\KategoriBarangController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\PemasokController;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PembelianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +25,6 @@ use App\Http\Controllers\ProdukController;
 Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::resource('barangs', BarangController::class);
 Route::resource('produks', ProdukController::class);
-Route::get('produks/getAllProduks', [ProdukController::class, 'getAllProduks'])->name('getAllProduks');
+Route::resource('pemasoks', PemasokController::class);
+Route::resource('pelanggans', PelangganController::class);
+Route::resource('pembelians', PembelianController::class);

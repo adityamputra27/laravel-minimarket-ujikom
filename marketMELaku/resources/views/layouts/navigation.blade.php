@@ -29,16 +29,16 @@
                     <ul class="nav child_menu">
                       <li><a href="{{ route('produks.index') }}">DATA PRODUK </a></li>
                       <li><a href="{{ route('barangs.index') }}">DATA BARANG </a></li>
-                      <li><a href="#">DATA PEMASOK </a></li>
-                      <li><a href="#">DATA PELANGGAN </a></li>
+                      <li><a href="{{ route('pemasoks.index') }}">DATA PEMASOK </a></li>
+                      <li><a href="{{ route('pelanggans.index') }}">DATA PELANGGAN </a></li>
                       <li><a href="#">DATA PENGGUNA </a></li>
-                    </ul>
+                    </ul> 
                   </li>
                 </ul>
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-shopping-cart"></i> TRANSAKSI <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">TRANSAKSI PEMBELIAN</a></li>
+                      <li><a href="{{ route('pembelians.index') }}">TRANSAKSI PEMBELIAN</a></li>
                       <li><a href="#">TRANSAKSI PENJUALAN</a></li>
                     </ul>
                   </li>

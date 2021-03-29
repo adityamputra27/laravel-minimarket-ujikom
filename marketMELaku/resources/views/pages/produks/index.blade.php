@@ -16,6 +16,15 @@
                     </button>
                     <div class="clearfix"></div>
                 </div>
+                @if($message = Session::get('success'))
+                <div id="flash-message" class="alert alert-success" role="alert">
+                    {{ $message }}
+                </div>
+                @elseif($message = Session::get('error'))
+                <div id="flash-message" class="alert alert-danger" role="alert">
+                    {{ $message }}
+                </div>
+                @endif
                 <div class="x_content">
                     <table id="produksTable" class="data-produk table table-striped table-bordered">
                         <thead>
@@ -26,18 +35,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach($produk as $key => $value)
-                            <tr id="row_{{ $value->id }}">
+                            @foreach($produk as $key => $value)
+                            <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $value->nama_produk }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-success"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                        <button data-toggle="modal" data-target="#modalForm" data-mode="edit" data-id="{{ $value->id }}" data-nama="{{ $value->nama_produk }}" data-action="{{ route('produks.update', $value->id) }}" class="btn btn-success"><i class="fa fa-edit"></i></button>
+                                        <button data-toggle="modal" data-target="#modalDelete" data-id="{{ $value->id }}" data-nama="{{ $value->nama_produk }}" data-action="{{ route('produks.destroy', $value->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -50,55 +59,42 @@
 @push('script')
     <script>
         $(function() {
+            const produksTable = $('#produksTable').DataTable();
 
-            const produksTable = $('produksTable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('getAllProduks') }}",
-                columns: [
-                    {data: 'DT_RowIndex', name: 'DT_Row_Index'},
-                    
-                ]
+            $('#modalForm').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget);
+                let id = button.data('id');
+                let nama = button.data('nama');
+                let action = button.data('action');
+                let mode = button.data('mode');
+                let modal = $(this);
+ 
+                if (mode == 'edit') {
+                    modal.find('.modal-title').text(`Edit Produk : ${nama}`);
+                    modal.find('#nama_produk').val(nama);
+                    modal.find('.btn-success').text('Update');
+                    $('#id').val(id);
+                    $('#formModal').attr('action', action);
+                    $('#method').append(`{{ method_field('PATCH') }}`);
+                } else {
+                    modal.find('.modal-title').text(`Tambah Produk`);
+                    modal.find('#nama_produk').val('');
+                    modal.find('.btn-success').text('Simpan');
+                    $('#id').val('');
+                    $('#method').append(``);
+                }
             });
+            $('#modalDelete').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget);
+                let id = button.data('id');
+                let nama = button.data('nama');
+                let action = button.data('action');
+                let modal = $(this);
 
-            $('body').on('click', '#formStore', function(event) {
-                event.preventDefault();
-                let nama_produk = $('#nama_produk').val();
-                let url = `{{ route('produks.store') }}`;
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: {
-                        // id: id,
-                        nama_produk: nama_produk
-                    },
-                    success:function(response) {
-                        if(response.status_code == 200) {
-                            // if(id != "") {
-                                // $("#row_"+id+" td:nth-child(2) ").html(response.data.nama_produk);
-                            // } else {
-                                $(".data-produk tbody").prepend(`
-                                <tr id="row_${response.data.id}">
-                                <td>${response.data.id}</td>
-                                <td>${response.data.nama_produk}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn btn-success"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                    </div>
-                                </td>
-                                </tr>`);
-                            // }
-                            $("#nama_produk").val('');
-                            $("#modalForm").modal('hide');
-                            location.reload();
-                        }
-                    },
-                    error:function(response) {
-                        $("#namaProdukError").text(response.responseJSON.errors.nama_produk);
-                    }
-                });
-            })
+                modal.find('#namaProduk').text(nama);
+                $('#idDelete').val(id);
+                $('#formDelete').attr('action', action);
+            });
         });
     </script>
 @endpush

@@ -28,7 +28,9 @@
   </div>
 </div>
 <!-- /top tiles -->
-
+<div class="alert alert-danger" id="flash-message" role="alert">
+  Test
+</div>
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel tile fixed_height_320">
     <div class="x_title">
