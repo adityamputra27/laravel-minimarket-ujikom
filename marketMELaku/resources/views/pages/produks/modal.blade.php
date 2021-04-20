@@ -8,19 +8,18 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="{{ route('produks.store') }}" id="formModal" method="POST">
-        @csrf
-        <div id="method"></div>
+      <form id="formModal" method="POST">
+        @csrf 
         <div class="modal-body">
             <div class="form-group">
-                <input type="hidden" name="id" id="id">
                 <label for="">Nama Produk : </label>
-                <input type="text" id="nama_produk" required name="nama_produk" class="form-control">
+                <input type="text" autocomplete="off" id="nama_produk" required name="nama_produk" class="form-control">
+                <span class="text-danger"><b id="nama_produk_error"></b></span>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-success">Simpan</button>
+            <button type="button" id="closeForm" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" id="submitForm" class="btn btn-success">Simpan</button>
         </div>
       </form>
     </div>

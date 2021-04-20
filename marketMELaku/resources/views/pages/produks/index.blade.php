@@ -4,27 +4,32 @@
     <div class="page-title">
         <div class="title_left">
             <h3>DATA PRODUK</h3>
+            <div class="btn-group" style="margin-bottom: 1em;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalForm">
+                    <i class="fa fa-plus-circle"></i> Tambah
+                </button>
+                <button class="btn btn-success"><i class="fa fa-file-excel-o"></i> Export</button>
+                <button class="btn btn-warning"><i class="fa fa-upload"></i> Import</button>
+                <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> PDF</button>
+            </div>
         </div>
     </div>
     <div class="clearfix"></div>
+    @if($message = Session::get('success'))
+        <div id="flash-message" class="alert alert-success" role="alert">
+            <i class="fa fa-check-circle"></i> {{ $message }}
+        </div>
+        @elseif($message = Session::get('error'))
+        <div id="flash-message" class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle"></i> {{ $message }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalForm">
-                        <i class="fa fa-plus-circle"></i> Tambah Data
-                    </button>
                     <div class="clearfix"></div>
                 </div>
-                @if($message = Session::get('success'))
-                <div id="flash-message" class="alert alert-success" role="alert">
-                    {{ $message }}
-                </div>
-                @elseif($message = Session::get('error'))
-                <div id="flash-message" class="alert alert-danger" role="alert">
-                    {{ $message }}
-                </div>
-                @endif
                 <div class="x_content">
                     <table id="produksTable" class="data-produk table table-striped table-bordered">
                         <thead>
@@ -56,14 +61,13 @@
 </div>
 @include('pages.produks.modal')
 @endsection
-@push('script')
+@push('scripts')
     <script>
         $(function() {
             const produksTable = $('#produksTable').DataTable();
 
             $('#modalForm').on('show.bs.modal', function (event) {
                 let button = $(event.relatedTarget);
-                let id = button.data('id');
                 let nama = button.data('nama');
                 let action = button.data('action');
                 let mode = button.data('mode');
@@ -73,15 +77,61 @@
                     modal.find('.modal-title').text(`Edit Produk : ${nama}`);
                     modal.find('#nama_produk').val(nama);
                     modal.find('.btn-success').text('Update');
-                    $('#id').val(id);
-                    $('#formModal').attr('action', action);
-                    $('#method').append(`{{ method_field('PATCH') }}`);
-                } else {
+
+                    $('body').on('click', '#submitForm', function (event) {
+                        event.preventDefault();
+                        let formData = $('#formModal').serialize();
+                        $('#nama_produk_error').text();
+
+                        $.ajax({
+                            url: action,
+                            method: "PATCH",
+                            data: formData,
+                            success:function(response) {
+                                if (response.errors) {
+                                    if (response.errors.nama_produk) {
+                                        $('#nama_produk_error').text(response.errors.nama_produk[0]);
+                                        $('#nama_produk').addClass('parsley-error');
+                                    }
+                                }
+                                if (response.status == 'success') {
+                                    location.reload();
+                                }
+                            }
+                        });
+                    });
+                } else { 
                     modal.find('.modal-title').text(`Tambah Produk`);
                     modal.find('#nama_produk').val('');
                     modal.find('.btn-success').text('Simpan');
                     $('#id').val('');
                     $('#method').append(``);
+
+                    $('body').on('click', '#submitForm', function (event) {
+                        event.preventDefault();
+                        let formData = $('#formModal').serialize();
+                        $('#nama_produk_error').text();
+                        $.ajax({
+                            url: "{{ route('produks.store') }}",
+                            method: "POST",
+                            data: formData,
+                            beforeSend:function() {
+                                $(this).html('Loading...');
+                            },
+                            success:function(response) {
+                                if (response.errors) {
+                                    if (response.errors.nama_produk) {
+                                        $('#nama_produk_error').text(response.errors.nama_produk[0]);
+                                        $('#nama_produk').addClass('parsley-error');
+                                    }
+                                }
+                                if (response.status == 'success') {
+                                    location.reload();
+                                }
+                            },
+
+                        });
+                    });
                 }
             });
             $('#modalDelete').on('show.bs.modal', function (event) {
@@ -94,6 +144,11 @@
                 modal.find('#namaProduk').text(nama);
                 $('#idDelete').val(id);
                 $('#formDelete').attr('action', action);
+            });
+
+            $('body').on('click', '#closeForm', function () {
+                $('#nama_produk').removeClass('parsley-error');
+                $('#nama_produk_error').text('');
             });
         });
     </script>

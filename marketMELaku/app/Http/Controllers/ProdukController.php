@@ -43,11 +43,23 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'nama_produk' => 'required|unique:produks,nama_produk'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
         $data = new Produk;
         $data->nama_produk = Str::upper($request->nama_produk);
         $data->save();
         Session::flash('success', 'Data Berhasil Ditambahkan!');
-        return redirect()->route('produks.index');
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 
     /**
@@ -81,13 +93,25 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Produk::where('id', $request->id)->first();
+        $validator = Validator::make($request->all(), [
+            'nama_produk' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $data = Produk::where('id', $id)->first();
         $arr = [
             'nama_produk' => $request->nama_produk
         ];
         $data->update($arr);
         Session::flash('success', 'Data Berhasil Diupdate!');
-        return redirect()->route('produks.index');
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 
     /**

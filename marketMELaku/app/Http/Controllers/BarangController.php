@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use Session;
+use Validator;
+use App\Services\Response;
 
 class BarangController extends Controller
 {
@@ -39,6 +41,19 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'kode_barang' => 'unique:barangs,kode_barang',
+            'produks_id' => 'required',
+            'nama_barang' => 'required|min:3|unique:barangs,nama_barang',
+            'satuan' => 'required',
+            'harga_jual' => 'required',
+            'stok' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::validationError($validator->errors());
+        }
+
         $data = [
             'kode_barang' => 'BRG-'.mt_rand(10000000,99999999),
             'produks_id' => $request->produks_id,
@@ -49,7 +64,8 @@ class BarangController extends Controller
         ];
         Barang::create($data);
         Session::flash('success', 'Data Berhasil Ditambahkan!');
-        return redirect()->route('barangs.index');
+
+        return Response::success('success');
     } 
 
     /**
@@ -83,7 +99,21 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Barang::where('id', $request->id)->first();
+        $validator = Validator::make($request->all(), [
+            'produks_id' => 'required',
+            'nama_barang' => 'required|min:3',
+            'satuan' => 'required',
+            'harga_jual' => 'required',
+            'stok' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $data = Barang::where('id', $id)->first();
         $arr = [
             'produks_id' => $request->produks_id,
             'nama_barang' => $request->nama_barang,
@@ -93,7 +123,10 @@ class BarangController extends Controller
         ];
         $data->update($arr);
         Session::flash('success', 'Data Berhasil Diupdate!');
-        return redirect()->route('barangs.index');
+        
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 
     /**

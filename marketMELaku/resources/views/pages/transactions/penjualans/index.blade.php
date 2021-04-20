@@ -3,7 +3,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left">
-            <h3>TRANSAKSI SUPPLIER</h3>
+            <h3>TRANSAKSI PENJUALAN</h3>
         </div>
     </div>
 
@@ -13,7 +13,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <a href="{{ route('pembelians.create') }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Tambah Data</a>
+                    <a href="{{ route('penjualans.create') }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Tambah Data</a>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -39,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($transaksiBeli as $key => $value)
+                        {{-- @foreach ($transaksiBeli as $key => $value)
                         <tr>
                             <td>{{ $key+1 }}</td>
                             <td><h5 class="badge badge-success">{{ $value->kode_masuk }}</h5></td>
@@ -54,7 +54,7 @@
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
                 </div>

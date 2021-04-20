@@ -68,6 +68,8 @@
 <!-- Custom Theme Scripts -->
 <script src="{{asset('assets')}}/build/js/custom.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.7/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(function () {
         setTimeout(function() {
@@ -75,10 +77,36 @@
                 $(this).remove();
             });
         }, 3000);
-
-    });
-    $(function() {
         $(".select2").select2();
+        $("#kota").select2();
+
+        // Nav sm untuk transaksi pembelian
+
+        let URL = window.location.href;
+        if (URL == ('http://127.0.0.1:8000/pembelians/create' || 'http://localhost:8000/pembelians/create')) {
+            $('body').addClass('nav-sm');
+            $('body').removeClass('nav-md');
+        } else {
+            $('body').addClass('nav-md');
+            $('body').removeClass('nav-sm');
+        }
+
+        // Nav sm untuk transaksi penjualn
+        // if (URL == ('http://127.0.0.1:8000/penjualans/create' || 'http://localhost:8000/penjualans/create')) {
+        //     $('body').addClass('nav-sm');
+        //     $('body').removeClass('nav-md');
+        // } else {
+        //     $('body').addClass('nav-md');
+        //     $('body').removeClass('nav-sm');
+        // }
+
+        // Toastr options
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass" : "toast-bottom-right",
+            "timeOut": "1500",
+        }
     });
 </script>
 

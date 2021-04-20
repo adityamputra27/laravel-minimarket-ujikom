@@ -10,7 +10,7 @@
             <ul class="nav navbar-nav navbar-right">
             <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <img src="{{ asset('assets') }}/images/admin-1.png" alt="">John Doe
+                <img src="{{ asset('assets') }}/images/admin-1.png" alt="">{{ Auth::user()->name }}
                 <span class=" fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">

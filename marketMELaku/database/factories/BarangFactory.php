@@ -24,13 +24,13 @@ class BarangFactory extends Factory
      */
     public function definition()
     {
-        $query = Barang::select(DB::raw('MAX(id)'))->get();
-        $urutan = (int) substr($query, 4, 4);
-        $urutan++;
-        $huruf = 'BRG-';
-        $kodeBarang = $huruf.sprintf("%04s", $urutan);
+        // $query = Barang::select(DB::raw('MAX(id)'))->get();
+        // $urutan = (int) substr($query, 4, 4);
+        // $urutan++;
+        // $huruf = 'BRG-';
+        // $kodeBarang = $huruf.sprintf("%04s", $urutan);
         return [
-            'kode_barang' => 'BRG-'.sprintf('%08d', $this->faker->unique()->numberBetWeen(1, 99999999)),
+            'kode_barang' => 'BRG-'.sprintf('%04d', $this->faker->unique()->numberBetWeen(1000, 9999)),
             'produks_id' => $this->faker->randomElement(Produk::select('id')->get()),
             'nama_barang' => $this->faker->unique()->randomElement(['MIE INDOMIE', 'SUSU FRISIAN FLAG', 'RINSO', 'KOPI GOOD DAY', 'CHIKI TARO']),
             'satuan' => $this->faker->randomElement(['pcs', 'item', 'kardus']),

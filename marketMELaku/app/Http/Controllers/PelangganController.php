@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
+use Session;
+use Validator;
 
 class PelangganController extends Controller
 {
@@ -38,7 +40,32 @@ class PelangganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|unique:pelanggans,nama',
+            'alamat' => 'required',
+            'no_telp' => 'required|unique:pelanggans,no_telp',
+            'email' => 'required|unique:pelanggans,email'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $pelanggan = new Pelanggan;
+        $pelanggan->kode_pelanggan = mt_rand(10000, 99999);
+        $pelanggan->nama = $request->nama;
+        $pelanggan->alamat = $request->alamat;
+        $pelanggan->email = $request->email;
+        $pelanggan->no_telp = $request->no_telp;
+        $pelanggan->save();
+
+        Session::flash('success', 'Data Berhasil Ditambahkan!');
+        return response()->json([
+            'status' => 'success'
+        ], 200);
+
     }
 
     /**
@@ -72,7 +99,30 @@ class PelangganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'alamat' => 'required',
+            'no_telp' => 'required',
+            'email' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggan->nama = $request->nama;
+        $pelanggan->alamat = $request->alamat;
+        $pelanggan->email = $request->email;
+        $pelanggan->no_telp = $request->no_telp;
+        $pelanggan->save();
+
+        Session::flash('success', 'Data Berhasil Diupdate!');
+        return response()->json([
+            'status' => 'success'
+        ], 200);
     }
 
     /**
@@ -83,6 +133,11 @@ class PelangganController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pelanggan = Pelanggan::findOrFail($id);
+
+        $pelanggan->delete();
+
+        Session::flash('success', 'Data Berhasil Dihapus!');
+        return redirect()->route('pelanggans.index');
     }
 }
